@@ -28,7 +28,6 @@ export default {
             })
         },
         logout ({ commit }) {
-            console.log('llegue')
             commit('clearUserData')
         }
     },

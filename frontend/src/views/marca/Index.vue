@@ -57,6 +57,7 @@ export default {
   },
   data() {
     return {
+      searchTerm: '',
       marks: {
           searchTerm: '',
           total: 0,
@@ -89,9 +90,9 @@ export default {
   methods: {
     getRecords() {
         return this.$http.get(`api/auth/marcas?searchTerm=${this.marks.searchTerm}`).then((response) => {
-          console.clear()
-          console.log(response.data)
+          // console.log(response.data.marks)
             this.rows = response.data.marks
+            console.log(this.rows)
             // this.marks = response.data
         })
     },
@@ -99,10 +100,11 @@ export default {
         this.marks = Object.assign({}, this.marks, newProps);
     },
     onSearch: _.debounce(function (params) {
+        console.log(params);
         this.updateParams(params);
         this.getRecords();
         return false;
-    }, 500)
+    }, 2000)
   },
   computed: {
     direction() {

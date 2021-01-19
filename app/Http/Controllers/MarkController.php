@@ -14,19 +14,30 @@ class MarkController extends Controller
      */
     public function index(Request $request)
     {
-        $search_query = $request->searchTerm;
-        $marks = Mark::where('name', 'LIKE', '%' . $search_query . '%')
-                 ->get()
-                 ->toArray();
+        $columnFilters = $request->columnFilters;
+        $sort = $request->sort;
+        $page = $request->page;
+        $perPage = $request->perPage;
 
-        if ( $search_query ) {
-            $marks['searchTerm'] = $search_query ?: '';
-         } else {
-            $marks['searchTerm'] = $search_query ? null : '';
-         }
-      
+        $marks = Mark::select('name', 'created_at', 'updated_at');
+
+        if($columnFilters['name']){
+            $marks->where('name', 'LIKE', '%' . $columnFilters['name'] . '%');
+        }
+
+        if($sort['type'] && $sort['field']){
+            $marks->orderBy($sort['field'], $sort['type']);
+        }
+
+        $marks = $marks->paginate($perPage)->toArray();
+
+        $rows = $marks['data'];
+        $totalRecords = $marks['total'];
+
          return response()->json( [
-            'marks' => $marks
+            "info" => $marks,
+            "rows" => $rows,
+            "totalRecords" => $totalRecords
          ] );
 
     }

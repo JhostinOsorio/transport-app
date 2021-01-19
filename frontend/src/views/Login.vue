@@ -283,7 +283,6 @@ export default {
     //   })
     // }
     login () {
-      console.log(this)
       this.$store
         .dispatch('autenticacion/login', {
           email: this.userEmail,

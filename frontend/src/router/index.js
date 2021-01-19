@@ -61,7 +61,7 @@ const router = new VueRouter({
     {
       path: '/marcas',
       name: 'marcas',
-      component: () => import('@/views/marca/Index.vue'),
+      component: () => import('@/views/marca/ListarNew.vue'),
       meta: {
         auth: true,
         pageTitle: 'Listado de Marcas',
